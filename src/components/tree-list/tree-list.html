@@ -1,0 +1,8 @@
+<ul class="tree">
+  <li *ngFor="let node of tree;let i=index;">
+    <div *ngIf="node.display" class="icon-unfold" (click)="flod(i)">-</div>
+    <div *ngIf="!node.display" class="icon-fold" (click)="unFlod(i)">|</div>
+    <input type="checkbox" [ngModel]="node.selected" (click)="fnClick($event,i)"> {{node.name}}
+    <tree-list *ngIf="node.display" [tree]="node.children" [parent]="node"></tree-list>
+  </li>
+</ul>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TreeModel } from '../components/tree-list/TreeType';
+import { DATALIST } from './datalist';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'tree-list';
+  treeData: TreeModel[] = DATALIST;
 }
