@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TreeModel } from '../components/tree-list/TreeType';
+import { deleteSelected, renderNodeStatus } from '../components/tree-list/util';
 import { DATALIST } from './datalist';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,6 +19,11 @@ export class AppComponent {
     this.treeData.children.unshift({
       name: `新节点${this.addCount}`
     });
+  }
+
+  deleteNode() {
+    deleteSelected(this.treeData);
+    renderNodeStatus(this.treeData);
   }
 
 }

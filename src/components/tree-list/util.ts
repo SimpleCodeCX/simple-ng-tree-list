@@ -18,3 +18,16 @@ export function renderNodeStatus(tree) {
     }
   });
 }
+
+export function deleteSelected(tree) {
+  const deleteNames = [];
+  tree.children && tree.children.forEach((node) => {
+    if (node.selected) {
+      deleteNames.push(node.name);
+    } else {
+      deleteSelected(node);
+    }
+  });
+  deleteNames.forEach(name => tree.children.splice(tree.children.findIndex(n => n.name === name), 1));
+}
+
