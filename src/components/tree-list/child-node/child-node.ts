@@ -28,25 +28,25 @@ export class ChildNode implements OnInit, OnDestroy {
 
   ngOnDestroy() { }
 
-  contextmenuClick(e, i) {
-    // alert(`您选择了节点${i}`);
+  contextmenuClick(e) {
+    alert(`您选择了节点${this.key}`);
     return false;
   }
 
-  checkboxClick(e, i) {
+  checkboxClick(e) {
     if (e.target.checked) {
-      this.renderSelected(this.tree.children[i], true);
+      this.renderSelected(this.tree, true);
       this.tree.parent && this.renderParentNodeStatus(this.tree);
     }
     else {
-      this.renderSelected(this.tree.children[i], false);
+      this.renderSelected(this.tree, false);
       this.tree.parent && this.renderParentNodeStatus(this.tree);
     }
     renderNodeStatus(this.tree);
   }
 
-  flod(index) {
-    this.tree.children[index].display = !this.tree.children[index].display;
+  flod() {
+    this.tree.display = !this.tree.display;
   }
 
   renderSelected(node, isSelected: boolean) {
@@ -61,7 +61,7 @@ export class ChildNode implements OnInit, OnDestroy {
   }
 
   renderParentNodeStatus(parent) {
-    parent.children.forEach(node => {
+    parent.children && parent.children.forEach(node => {
       const index = parent.children.findIndex(node => node.selected);
       if (index === -1) {
         parent.selected = false;

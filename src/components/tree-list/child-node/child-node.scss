@@ -1,5 +1,12 @@
+ul {
+  padding-left: 0px;
+  margin-top: 3px;
+}
+
 ul li {
   list-style-type: none;
+  padding-left: 0px;
+  margin-top: 2px;
 }
 
 .fold {
@@ -16,6 +23,16 @@ ul li {
 
 .checkbox {
   display: none;
+}
+
+.node-name {
+  display: inline-block;
+  margin-left: 3px;
+}
+
+.node-name:hover {
+  cursor: pointer;
+  background-color: #0f0;
 }
 
 .node-status {
