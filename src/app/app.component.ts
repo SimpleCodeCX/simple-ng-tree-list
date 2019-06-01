@@ -10,5 +10,15 @@ import { DATALIST } from './datalist';
 export class AppComponent {
   title = 'tree-list';
   treeData: TreeModel = DATALIST;
-  num = 1;
+  addCount: number = 0;
+
+  constructor() { }
+
+  addNode() {
+    this.addCount++;
+    this.treeData.children.unshift({
+      name: `新节点${this.addCount}`
+    });
+  }
+
 }

@@ -1,4 +1,22 @@
+.github-url {
+  text-align: center;
+  margin-top: 38px;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  a:hover {
+    font-weight: bold;
+    text-decoration: #888888;
+  }
+}
 .container {
   margin-left: 488px;
-  margin-top: 88px;
+  margin-top: 38px;
+  .btn-add-node {
+    width: 78px;
+    height: 30px;
+    font-size: 18px;
+  }
 }
