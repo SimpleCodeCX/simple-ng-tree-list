@@ -1,14 +1,20 @@
-.github-url {
+.url {
   text-align: center;
   margin-top: 38px;
 
-  a {
+  .demo-url {
     text-decoration: none;
     color: black;
   }
-  a:hover {
+
+  .demo-url:hover {
     font-weight: bold;
     text-decoration: #888888;
+  }
+
+  .about-me {
+    margin-left: 8px;
+    color: #888888;
   }
 }
 .container {
