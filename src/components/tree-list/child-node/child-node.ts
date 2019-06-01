@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { TreeModel, NodeStatus } from '../TreeType';
-import { renderNodeStatus } from '../util';
 
 let UNIQUE_COUNT = 0;
 
@@ -26,13 +25,21 @@ export class ChildNode implements OnInit, OnDestroy {
     this.tree.key = UNIQUE_COUNT;
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this.tree = null;
+  }
 
+  /**
+   * 点击鼠标右键
+   */
   contextmenuClick(e) {
     alert(`您选择了节点${this.key}`);
     return false;
   }
 
+  /**
+   * 点击复选框
+   */
   checkboxClick(e) {
     if (e.target.checked) {
       this.renderSelected(this.tree, true);
@@ -42,14 +49,21 @@ export class ChildNode implements OnInit, OnDestroy {
       this.renderSelected(this.tree, false);
       this.tree.parent && this.renderParentNodeStatus(this.tree);
     }
-    renderNodeStatus(this.tree);
   }
 
+  /**
+   * 折叠或展开
+   */
   flod() {
     this.tree.display = !this.tree.display;
   }
 
-  renderSelected(node, isSelected: boolean) {
+  /**
+   * 渲染当前节点以及所有子节点 checkbox 样式
+   * isSelected:true,设置当前节点以及所有子节点为勾选状态
+   * isSelected:false,设置当前节点以及所有子节点为未勾选状态
+   */
+  renderSelected(node: TreeModel, isSelected: boolean) {
     if (isSelected) {
       node.status = NodeStatus.FILL;
       node.selected = true;
@@ -57,19 +71,22 @@ export class ChildNode implements OnInit, OnDestroy {
       node.status = NodeStatus.BLACK;
       node.selected = false;
     }
-    node.children && node.children.forEach(node => this.renderSelected(node, isSelected));
+    node.children && node.children.forEach((node: TreeModel) => this.renderSelected(node, isSelected));
   }
 
-  renderParentNodeStatus(parent) {
-    parent.children && parent.children.forEach(node => {
-      const index = parent.children.findIndex(node => node.selected);
+  /**
+   * 递归渲染父节点 checkbox 样式
+   */
+  renderParentNodeStatus(parent: TreeModel) {
+    parent.children && parent.children.forEach((node: TreeModel) => {
+      const index = parent.children.findIndex((node: TreeModel) => node.selected);
       if (index === -1) {
         parent.selected = false;
         parent.status = NodeStatus.BLACK;
       } else {
         parent.status = NodeStatus.SOME;
         parent.selected = false;
-        const isFill = parent.children.every(node => node.selected === true);
+        const isFill = parent.children.every((node: TreeModel) => node.selected === true);
         if (isFill) {
           parent.selected = true;
           parent.status = NodeStatus.FILL;

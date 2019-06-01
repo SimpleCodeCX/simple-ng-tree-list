@@ -14,10 +14,15 @@ export class TreeList implements OnInit, OnDestroy {
 
   constructor() { }
 
-  ngOnInit() { this.initTree(); }
+  ngOnInit() {
+    this.initTree();
+  }
 
   ngOnDestroy() { }
 
+  /**
+   * 初始化各个节点的勾选状态
+   */
   initTree() {
     renderNodeStatus(this.tree);
   }
