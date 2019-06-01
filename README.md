@@ -15,3 +15,12 @@ ng serve -o --port=4200
 ng build --prod
 ```
 
+## deploy
+
+docker ([Dockerfile](https://github.com/SimpleCodeCX/simple-ng-tree-list/blob/master/Dockerfile)) + [nginx](https://github.com/SimpleCodeCX/simple-ng-tree-list/blob/master/nginx/default.conf)
+
+```javascript
+cd simple-ng-tree-list
+./docker-release.sh
+```
+
