@@ -5,7 +5,6 @@ export const DATALIST: TreeModel = {
   children: [
     {
       name: '食物',
-      selected: true,
       display: true,
       children: [
         {
@@ -27,19 +26,37 @@ export const DATALIST: TreeModel = {
           ]
         },
         { name: '肉' },
+        {
+          name: '五谷',
+          display: false,
+          children: [
+            { name: '绿豆', selected: true },
+            { name: '红豆' },
+            { name: '大豆', selected: true }
+          ]
+        },
       ]
     },
     {
       name: '动物',
       display: false,
       children: [
-        { name: '小猫' },
+        { name: '小猫', selected: true },
         { name: '小狗' },
         { name: '小兔' }
       ]
     },
     {
-      name: '昆虫'
+      name: '昆虫',
+      display: false,
+      children: [
+        { name: '蝴蝶' },
+        { name: '萤火虫' },
+        { name: '蜻蜓' }
+      ]
+    },
+    {
+      name: '植物'
     }
   ]
 }

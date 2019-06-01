@@ -17,59 +17,41 @@ export class TreeList implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
-    this.tree && this.tree.children && this.tree.children.forEach(node => {
-      const index = this.tree.children.findIndex(node => node.selected);
-      if (index === -1) {
-        this.tree.selected = false;
-        this.tree.status = NodeStatus.BLACK;
-      } else {
-        this.tree.status = NodeStatus.SOME;
-        const isFill = this.tree.children.every(node => node.selected === true);
-        if (isFill) {
-          this.tree.selected = true;
-          this.tree.status = NodeStatus.FILL;
-        }
-      }
-    });
+    this.renderNodeStatus(this.tree);
   }
 
   ngOnDestroy() { }
 
   fnClick(e, i) {
     if (e.target.checked) {
-      this.tree.children[i].status = NodeStatus.FILL;
-      this.tree.children[i].selected = true;
-      this.tree.children[i].children && this.tree.children[i].children.forEach(node => node.selected = true);
+      this.renderSelected(this.tree.children[i], true);
     }
     else {
-      this.tree.children[i].selected = false;
-      this.tree.children[i].status = NodeStatus.BLACK;
-      this.tree.children[i].children && this.tree.children[i].children.forEach(node => node.selected = false);
+      this.renderSelected(this.tree.children[i], false);
     }
 
-    const index = this.tree.children.findIndex(node => node.selected);
-    if (index === -1) {
-      this.tree.selected = false;
-      this.tree.status = NodeStatus.BLACK;
-    } else {
-      this.tree.status = NodeStatus.SOME;
-      const isFill = this.tree.children.every(node => node.selected === true);
-      if (isFill) {
-        this.tree.selected = true;
-        this.tree.status = NodeStatus.FILL;
-      }
-    }
-
-
+    this.renderNodeStatus(this.tree);
   }
 
   flod(index) {
     this.tree.children[index].display = !this.tree.children[index].display;
   }
 
-  refreshNodeStatus(tree) {
+  renderSelected(node, isSelected: boolean) {
+    if (isSelected) {
+      node.status = NodeStatus.FILL;
+      node.selected = true;
+    } else {
+      node.status = NodeStatus.BLACK;
+      node.selected = false;
+    }
+
+    node.children && node.children.forEach(node => this.renderSelected(node, isSelected));
+  }
+
+  renderNodeStatus(tree) {
     tree && tree.children && tree.children.forEach(node => {
-      node.children && this.refreshNodeStatus(node);
+      node.children && this.renderNodeStatus(node);
       const index = tree.children.findIndex(node => node.selected);
       if (index === -1) {
         tree.selected = false;
