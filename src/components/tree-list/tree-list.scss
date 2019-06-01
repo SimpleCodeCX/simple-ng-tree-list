@@ -37,5 +37,8 @@ ul li {
   display: inline-block;
   width: 20px;
   height: 20px;
-  fill: #0f0;
+}
+
+.node-name:hover {
+  background-color: greenyellow;
 }

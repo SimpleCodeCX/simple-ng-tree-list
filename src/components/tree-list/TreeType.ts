@@ -9,4 +9,5 @@ export interface TreeModel {
   display?: boolean;
   status?: NodeStatus;
   children?: TreeModel[];
+  parent?: TreeModel;
 }

@@ -11,23 +11,32 @@ export class TreeList implements OnInit, OnDestroy {
   @Input()
   public tree: TreeModel;
 
+  @Input()
+  public parent: TreeModel;
+
   key: number = UNIQUE_COUNT++;
 
-  imgSrc = "../../assets/imgs/checkbox-blank-line.svg";
   constructor() { }
 
   ngOnInit() {
+    this.parent && (this.tree.parent = this.parent);
     this.renderNodeStatus(this.tree);
   }
 
   ngOnDestroy() { }
 
-  fnClick(e, i) {
+  contextmenuClick(e, i) {
+    alert(`您选择了节点${i}`);
+    return false;
+  }
+  checkboxClick(e, i) {
     if (e.target.checked) {
       this.renderSelected(this.tree.children[i], true);
+      this.tree.parent && this.renderParentNodeStatus(this.tree);
     }
     else {
       this.renderSelected(this.tree.children[i], false);
+      this.tree.parent && this.renderParentNodeStatus(this.tree);
     }
 
     this.renderNodeStatus(this.tree);
@@ -58,6 +67,7 @@ export class TreeList implements OnInit, OnDestroy {
         tree.status = NodeStatus.BLACK;
       } else {
         tree.status = NodeStatus.SOME;
+        tree.selected = false;
         const isFill = tree.children.every(node => node.selected === true);
         if (isFill) {
           tree.selected = true;
@@ -66,4 +76,26 @@ export class TreeList implements OnInit, OnDestroy {
       }
     });
   }
+
+  renderParentNodeStatus(parent) {
+    parent.children.forEach(node => {
+      const index = parent.children.findIndex(node => node.selected);
+      if (index === -1) {
+        parent.selected = false;
+        parent.status = NodeStatus.BLACK;
+      } else {
+        parent.status = NodeStatus.SOME;
+        parent.selected = false;
+        const isFill = parent.children.every(node => node.selected === true);
+        if (isFill) {
+          parent.selected = true;
+          parent.status = NodeStatus.FILL;
+        }
+      }
+    });
+    parent.parent && this.renderParentNodeStatus(parent.parent);
+
+  }
+
+
 }
