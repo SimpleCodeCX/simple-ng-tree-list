@@ -10,4 +10,5 @@ export interface TreeModel {
   status?: NodeStatus;
   children?: TreeModel[];
   parent?: TreeModel;
+  key?: number;
 }
