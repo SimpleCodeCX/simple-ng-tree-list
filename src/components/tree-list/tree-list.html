@@ -1,8 +1,24 @@
 <ul class="tree">
-  <li *ngFor="let node of tree;let i=index;">
-    <div *ngIf="node.display" class="icon-unfold" (click)="flod(i)">-</div>
-    <div *ngIf="!node.display" class="icon-fold" (click)="unFlod(i)">|</div>
-    <input type="checkbox" [ngModel]="node.selected" (click)="fnClick($event,i)"> {{node.name}}
-    <tree-list *ngIf="node.display" [tree]="node.children" [parent]="node"></tree-list>
+  <li *ngFor="let node of tree.children;let i=index;">
+    <!-- <div *ngIf="node.display" class="icon-unfold" (click)="flod(i)">-</div>
+    <div *ngIf="!node.display" class="icon-fold" (click)="unFlod(i)">|</div> -->
+    <img *ngIf="node.children" class="fold" [src]="node.display?'./assets/imgs/arrow-drop-down-fill.svg':'./assets/imgs/arrow-drop-right-fill.svg'"
+      (click)="flod(i)" />
+    <div *ngIf="!node.children" class="fold-black"></div>
+
+    <!-- <img class="node-status" src="../../assets/imgs/checkbox-indeterminate-fill.svg" /> -->
+    <label for="checkbox_{{key}}_{{i}}">
+      <ng-container *ngIf="node.children" [ngSwitch]="node.status">
+        <img *ngSwitchCase="1" class="fold" src="./assets/imgs/checkbox-blank-line.svg" />
+        <img *ngSwitchCase="2" class="fold" src="./assets/imgs/checkbox-fill.svg" />
+        <img *ngSwitchCase="3" class="fold" src="./assets/imgs/checkbox-indeterminate-line.svg" />
+        <img *ngSwitchDefault class="fold" src="./assets/imgs/checkbox-blank-line.svg" />
+      </ng-container>
+      <img *ngIf="!node.children" class="fold" [src]="node.selected?'./assets/imgs/checkbox-fill.svg':'./assets/imgs/checkbox-blank-line.svg'" />
+      <!-- <img class="fold" [src]="node.status===1?'../../assets/imgs/checkbox-blank-line.svg':node.status===2?'./assets/imgs/checkbox-fill.svg':'../../assets/imgs/checkbox-indeterminate-line.svg'" /> -->
+    </label>
+    <input class="checkbox" type="checkbox" id="checkbox_{{key}}_{{i}}" [ngModel]="node.selected" (click)="fnClick($event,i)">
+    {{node.name}}
+    <tree-list *ngIf="node.display" [tree]="node"></tree-list>
   </li>
 </ul>

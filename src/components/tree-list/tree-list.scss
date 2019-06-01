@@ -1,10 +1,41 @@
 ul li {
   list-style-type: none;
 }
-.icon-unfold {
-  display: inline;
+
+// .icon-unfold {
+//   background: url("../../assets/imgs/arrow-drop-down-fill.svg");
+//   display: inline-block;
+//   width: 20px;
+//   height: 20px;
+//   border: 1px solid red;
+// }
+
+.fold {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
 }
 
-.icon-fold {
-  display: inline;
+.fold-black {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox-label {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid red;
+  background: url("../../assets/imgs/btn_leftmenu_p.png") no-repeat;
+}
+.checkbox {
+  display: none;
+}
+
+.node-status {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  fill: #0f0;
 }

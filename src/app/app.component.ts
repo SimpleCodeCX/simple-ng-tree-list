@@ -9,5 +9,6 @@ import { DATALIST } from './datalist';
 })
 export class AppComponent {
   title = 'tree-list';
-  treeData: TreeModel[] = DATALIST;
+  treeData: TreeModel = DATALIST;
+  num = 1;
 }
