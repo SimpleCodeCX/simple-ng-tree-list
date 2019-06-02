@@ -4,6 +4,7 @@ ul {
 }
 
 ul li {
+  position: relative;
   list-style-type: none;
   padding-left: 0px;
   margin-top: 2px;
@@ -40,4 +41,37 @@ ul li {
   width: 20px;
   height: 20px;
   fill: #0f0;
+}
+
+.edit-box {
+  position: absolute;
+  left: 100px;
+  top: -45px;
+  width: 200px;
+  height: 90px;
+  border: 1px solid #888888;
+  background-color: #888888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  input {
+    display: block;
+    height: 28px;
+  }
+  button {
+    min-width: 60px;
+    height: 30px;
+    font-size: 18px;
+  }
+  button:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .btn-margin-left {
+    margin-left: 5px;
+  }
+}
+.edit-box-hidden {
+  display: none;
 }

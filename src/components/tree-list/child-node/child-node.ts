@@ -1,8 +1,12 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { TreeModel, NodeStatus } from '../TreeType';
 
 let UNIQUE_COUNT = 0;
-
+enum EditMode {
+  NORMAL = 'normal',
+  ADD = 'add',
+  DELETE = 'delete'
+}
 @Component({
   selector: 'child-node',
   templateUrl: './child-node.html',
@@ -18,23 +22,27 @@ export class ChildNode implements OnInit, OnDestroy {
 
   key: number = UNIQUE_COUNT++;
 
-  constructor() { }
+  addValue: string = '';
+
+  // 编辑模式 normal | edit
+  editMode: EditMode = EditMode.NORMAL;
+
+  @ViewChild('editBox', { read: ElementRef })
+  editBox: ElementRef;
+
+  constructor(private renderer: Renderer2, private cdf: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.parent && (this.tree.parent = this.parent);
     this.tree.key = UNIQUE_COUNT;
+    setTimeout(() => {
+      this.renderParentNodeStatus(this.tree);
+    }, 0);
+
   }
 
   ngOnDestroy() {
     this.tree = null;
-  }
-
-  /**
-   * 点击鼠标右键
-   */
-  contextmenuClick(e) {
-    alert(`您选择了节点${this.key}`);
-    return false;
   }
 
   /**
@@ -94,6 +102,61 @@ export class ChildNode implements OnInit, OnDestroy {
       }
     });
     parent.parent && this.renderParentNodeStatus(parent.parent);
+  }
+
+  /**
+    * 点击鼠标右键
+    */
+  contextmenuClick(e) {
+    this.renderer.removeClass(this.editBox.nativeElement, 'edit-box-hidden');
+    return false;
+  }
+
+  /**
+   * 取消编辑状态
+   */
+  cancelEdit() {
+    this.editMode = EditMode.NORMAL;
+    this.renderer.addClass(this.editBox.nativeElement, 'edit-box-hidden');
+    this.addValue = '';
+  }
+
+  /**
+   * 开启添加模式
+   */
+  switchToAddNodeMode() {
+    this.editMode = EditMode.ADD;
+  }
+
+  /**
+   * 开启删除模式
+   */
+  switchToDeleteNodeMode() {
+    this.editMode = EditMode.DELETE;
+  }
+
+  /**
+   * 添加节点
+   */
+  addNode() {
+    const newNole: TreeModel = {
+      name: this.addValue || '未命名'
+    }
+    !this.tree.children && (this.tree.children = []);
+    this.tree.children.push(newNole);
+    this.tree.display = true;
+    this.renderer.addClass(this.editBox.nativeElement, 'edit-box-hidden');
+    this.addValue = '';
+    this.editMode = EditMode.NORMAL;
+  }
+
+  /**
+   * 删除节点
+   */
+  deleteNode() {
+    const index = this.tree.parent.children.findIndex((node: TreeModel) => node === this.tree);
+    this.tree.parent.children.splice(index, 1);
+    this.renderParentNodeStatus(this.tree);
   }
 
 }
