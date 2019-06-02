@@ -1,1 +1,22 @@
+<ng-container [ngSwitch]="editMode" *ngIf="editRoot||!this.tree.children||(this.tree.children&&this.tree.children.length<=0)">
+  <ng-container *ngSwitchCase="'add'">
+    <div class="add-value-text">
+      <input type="text" placeholder="请输入节点名" [(ngModel)]="addValue">
+    </div>
+    <button class="btn-add-node" (click)="addNode()">确定</button>
+    <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
+  </ng-container>
+  <ng-container *ngSwitchCase="'delete'">
+    <button class="btn-add-node" (click)="deleteNode()">确认删除</button>
+    <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
+  </ng-container>
+  <ng-container *ngSwitchCase="'edit'">
+    <button class="btn-add-node" (click)="switchToAddNodeMode()">添加</button>
+    <button class="btn-margin-left" (click)="switchToDeleteNodeMode()">删除选中</button>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <button class="btn-add-node" (click)="switchToAddNodeMode()">添加</button>
+    <button class="btn-margin-left" (click)="switchToDeleteNodeMode()">删除选中</button>
+  </ng-container>
+</ng-container>
 <parent-node [tree]="tree"></parent-node>

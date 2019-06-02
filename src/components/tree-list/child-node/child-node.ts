@@ -146,6 +146,7 @@ export class ChildNode implements OnInit, OnDestroy {
     const index = this.tree.parent.children.findIndex((node: TreeModel) => node === this.tree);
     this.tree.parent.children.splice(index, 1);
     this.renderParentNodeStatus(this.tree);
+    this.tree.editMode = EditMode.HIDDEN;
   }
 
 }
