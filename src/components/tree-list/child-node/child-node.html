@@ -1,9 +1,9 @@
 <ul class="tree">
   <li *ngIf="tree">
     <ng-container *ngIf="tree.name!=='/'">
-      <img *ngIf="tree.children" class="fold" [src]="tree.display?'./assets/imgs/arrow-drop-down-fill.svg':'./assets/imgs/arrow-drop-right-fill.svg'"
+      <img *ngIf="tree.children && tree.children.length>0" class="fold" [src]="tree.display?'./assets/imgs/arrow-drop-down-fill.svg':'./assets/imgs/arrow-drop-right-fill.svg'"
         (click)="flod()" />
-      <div *ngIf="!tree.children" class="fold-black"></div>
+      <div *ngIf="!tree.children || (tree.children && tree.children.length <=0)" class="fold-black"></div>
       <label for="checkbox_{{key}}" (contextmenu)="contextmenuClick($event)">
         <ng-container *ngIf="tree.children" [ngSwitch]="tree.status">
           <img *ngSwitchCase="1" class="fold" src="./assets/imgs/checkbox-blank-line.svg" />
@@ -19,7 +19,7 @@
         <ng-container [ngSwitch]="tree.editMode">
           <ng-container *ngSwitchCase="'add'">
             <div>
-              <input type="text" [(ngModel)]="addValue">
+              <input type="text" placeholder="请输入节点名" [(ngModel)]="addValue">
             </div>
             <button class="btn-add-node" (click)="addNode()">确定</button>
             <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
@@ -28,7 +28,7 @@
             <button class="btn-add-node" (click)="deleteNode()">确认删除</button>
             <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
           </ng-container>
-          <ng-container *ngSwitchCase="'normal'">
+          <ng-container *ngSwitchCase="'edit'">
             <button class="btn-add-node" (click)="switchToAddNodeMode()">添加</button>
             <button class="btn-margin-left" (click)="switchToDeleteNodeMode()">删除</button>
             <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
