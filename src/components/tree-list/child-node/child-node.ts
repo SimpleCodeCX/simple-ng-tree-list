@@ -1,12 +1,9 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
-import { TreeModel, NodeStatus } from '../TreeType';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { TreeModel, NodeStatus, EditMode } from '../TreeType';
+import { findRootNode, setEditModeToHidden } from '../util';
 
 let UNIQUE_COUNT = 0;
-enum EditMode {
-  NORMAL = 'normal',
-  ADD = 'add',
-  DELETE = 'delete'
-}
+
 @Component({
   selector: 'child-node',
   templateUrl: './child-node.html',
@@ -24,13 +21,7 @@ export class ChildNode implements OnInit, OnDestroy {
 
   addValue: string = '';
 
-  // 编辑模式 normal | edit
-  editMode: EditMode = EditMode.NORMAL;
-
-  @ViewChild('editBox', { read: ElementRef })
-  editBox: ElementRef;
-
-  constructor(private renderer: Renderer2, private cdf: ChangeDetectorRef) { }
+  constructor() { }
 
   ngOnInit() {
     this.parent && (this.tree.parent = this.parent);
@@ -38,7 +29,6 @@ export class ChildNode implements OnInit, OnDestroy {
     setTimeout(() => {
       this.renderParentNodeStatus(this.tree);
     }, 0);
-
   }
 
   ngOnDestroy() {
@@ -105,10 +95,11 @@ export class ChildNode implements OnInit, OnDestroy {
   }
 
   /**
-    * 点击鼠标右键
-    */
+   * 点击鼠标右键，开启编辑模式
+   */
   contextmenuClick(e) {
-    this.renderer.removeClass(this.editBox.nativeElement, 'edit-box-hidden');
+    setEditModeToHidden(findRootNode(this.tree))
+    this.tree.editMode = EditMode.EDIT;
     return false;
   }
 
@@ -116,8 +107,7 @@ export class ChildNode implements OnInit, OnDestroy {
    * 取消编辑状态
    */
   cancelEdit() {
-    this.editMode = EditMode.NORMAL;
-    this.renderer.addClass(this.editBox.nativeElement, 'edit-box-hidden');
+    this.tree.editMode = EditMode.HIDDEN;
     this.addValue = '';
   }
 
@@ -125,14 +115,14 @@ export class ChildNode implements OnInit, OnDestroy {
    * 开启添加模式
    */
   switchToAddNodeMode() {
-    this.editMode = EditMode.ADD;
+    this.tree.editMode = EditMode.ADD;
   }
 
   /**
    * 开启删除模式
    */
   switchToDeleteNodeMode() {
-    this.editMode = EditMode.DELETE;
+    this.tree.editMode = EditMode.DELETE;
   }
 
   /**
@@ -145,9 +135,8 @@ export class ChildNode implements OnInit, OnDestroy {
     !this.tree.children && (this.tree.children = []);
     this.tree.children.push(newNole);
     this.tree.display = true;
-    this.renderer.addClass(this.editBox.nativeElement, 'edit-box-hidden');
     this.addValue = '';
-    this.editMode = EditMode.NORMAL;
+    this.tree.editMode = EditMode.HIDDEN;
   }
 
   /**

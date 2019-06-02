@@ -15,8 +15,8 @@
       </label>
       <input class="checkbox" type="checkbox" id="checkbox_{{key}}" [ngModel]="tree.selected" (click)="checkboxClick($event)">
       <div class="node-name" (contextmenu)="contextmenuClick($event)">{{tree.name}}</div>
-      <div #editBox class="edit-box edit-box-hidden">
-        <ng-container [ngSwitch]="editMode">
+      <div class="edit-box" [ngClass]="tree.editMode == 'hiddle' || !tree.editMode ?'edit-box-hidden':''">
+        <ng-container [ngSwitch]="tree.editMode">
           <ng-container *ngSwitchCase="'add'">
             <div>
               <input type="text" [(ngModel)]="addValue">
