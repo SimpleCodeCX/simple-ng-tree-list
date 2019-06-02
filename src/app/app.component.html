@@ -11,7 +11,11 @@
   </div>
 </div>
 <div class="container">
-  <button class="btn-add-node" (click)="addNode()">添加</button>
-  <button class="btn-delete-node" (click)="deleteNode()">删除</button>
-  <tree-list [tree]="treeData"></tree-list>
+  <div>
+    <select (change)="selectEditMode($event)">
+      <option value="edit">编辑模式</option>
+      <option value="noEdit">不编辑模式</option>
+    </select>
+  </div>
+  <tree-list [tree]="treeData" [editRoot]="editRoot"></tree-list>
 </div>

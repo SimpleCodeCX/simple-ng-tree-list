@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TreeModel } from '../components/tree-list/TreeType';
-import { deleteSelected, renderNodeStatus } from '../components/tree-list/util';
 import { DATALIST } from './datalist';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,20 +10,11 @@ import { DATALIST } from './datalist';
 export class AppComponent {
   title = 'tree-list';
   treeData: TreeModel = DATALIST;
-  addCount: number = 0;
+  editRoot: boolean = true;
 
   constructor() { }
 
-  addNode() {
-    this.addCount++;
-    this.treeData.children.unshift({
-      name: `新节点${this.addCount}`
-    });
+  selectEditMode(e) {
+    this.editRoot = e.target.value === 'edit' ? true : false;
   }
-
-  deleteNode() {
-    deleteSelected(this.treeData);
-    renderNodeStatus(this.treeData);
-  }
-
 }
