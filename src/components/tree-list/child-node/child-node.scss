@@ -55,23 +55,28 @@ ul li {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
   input {
     display: block;
     height: 28px;
   }
+
   button {
     min-width: 60px;
     height: 30px;
     font-size: 18px;
   }
+
   button:hover {
     cursor: pointer;
     font-weight: bold;
   }
+
   .btn-margin-left {
     margin-left: 5px;
   }
 }
+
 .edit-box-hidden {
   display: none;
 }

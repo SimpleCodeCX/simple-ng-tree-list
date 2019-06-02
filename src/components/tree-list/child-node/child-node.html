@@ -16,23 +16,29 @@
       <input class="checkbox" type="checkbox" id="checkbox_{{key}}" [ngModel]="tree.selected" (click)="checkboxClick($event)">
       <div class="node-name" (contextmenu)="contextmenuClick($event)">{{tree.name}}</div>
       <div #editBox class="edit-box edit-box-hidden">
-        <ng-container *ngIf="editMode==='add'">
-          <div>
-            <input type="text" [(ngModel)]="addValue">
-          </div>
-          <button class="btn-add-node" (click)="addNode()">确定</button>
-          <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
+        <ng-container [ngSwitch]="editMode">
+          <ng-container *ngSwitchCase="'add'">
+            <div>
+              <input type="text" [(ngModel)]="addValue">
+            </div>
+            <button class="btn-add-node" (click)="addNode()">确定</button>
+            <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
+          </ng-container>
+          <ng-container *ngSwitchCase="'delete'">
+            <button class="btn-add-node" (click)="deleteNode()">确认删除</button>
+            <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
+          </ng-container>
+          <ng-container *ngSwitchCase="'normal'">
+            <button class="btn-add-node" (click)="switchToAddNodeMode()">添加</button>
+            <button class="btn-margin-left" (click)="switchToDeleteNodeMode()">删除</button>
+            <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <button class="btn-add-node" (click)="switchToAddNodeMode()">添加</button>
+            <button class="btn-margin-left" (click)="switchToDeleteNodeMode()">删除</button>
+            <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
+          </ng-container>
         </ng-container>
-        <ng-container *ngIf="editMode==='delete'">
-          <button class="btn-add-node" (click)="deleteNode()">确认删除</button>
-          <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
-        </ng-container>
-        <ng-container *ngIf="editMode==='normal'">
-          <button class="btn-add-node" (click)="switchToAddNodeMode()">添加</button>
-          <button class="btn-margin-left" (click)="switchToDeleteNodeMode()">删除</button>
-          <button class="btn-margin-left" (click)="cancelEdit()">取消</button>
-        </ng-container>
-
       </div>
     </ng-container>
     <ng-container *ngFor="let node of tree.children;let i=index;">
